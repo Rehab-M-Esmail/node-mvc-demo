@@ -1,3 +1,4 @@
+const item = require('../models/item');
 const Item = require('../models/item');
 
 exports.getItems = async (req, res) => {
@@ -17,5 +18,15 @@ exports.addItem = async (req, res) => {
     res.redirect('/');
   } catch (err) {
     res.status(500).send('Error saving item');
+  }
+};
+exports.deleteItem = async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name) return res.send('Nothing to delete');
+    await Item.deleteOne({name});
+    res.redirect('/');
+  } catch (err) {
+    res.status(500).send('Error deleting item');
   }
 };
